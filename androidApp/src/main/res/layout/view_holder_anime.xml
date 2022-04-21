@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="ru.nikolay.stupnikov.surfkmp.android.R" />
+        <variable
+            name="viewModel"
+            type="ru.nikolay.stupnikov.surfkmp.android.ui.main.anime.AnimeItemViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.onItemClick()}"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="@dimen/logo_size"
+                android:layout_height="@dimen/logo_size"
+                android:layout_gravity="center_vertical"
+                tools:src="@drawable/icon_logo"
+                app:imageUrl="@{viewModel.imageUrl}"
+                app:size="@{R.dimen.logo_size}"
+                android:contentDescription="@string/logo" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Death Not"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                app:title="@{viewModel.name}"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_gravity="center_vertical" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_height"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:background="@color/gray"/>
+
+    </LinearLayout>
+
+</layout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AnimeList</string>
+    <string name="anime_list">List of anime</string>
+    <string name="logo">Logo</string>
+    <string name="no_name">No name</string>
+    <string name="swipe_to_update">The list is empty,\nplease swipe to update </string>
+    <string name="search">Search</string>
+    <string name="filter">Filter</string>
+    <string name="seasons">Seasons</string>
+    <string name="submit">Submit</string>
+    <string name="enter_the_year">Enter the year</string>
+    <string name="year_start_show">Year of the start of the show</string>
+    <string name="categories">Categories</string>
+    <string name="choose_category">Choose category</string>
+    <string name="all_categories">All categories</string>
+    <string name="age_rating">Age rating</string>
+    <string name="rating">Rating:</string>
+    <string name="start_date">Start date:</string>
+    <string name="end_date">End date:</string>
+    <string name="age_rating_title">Age rating:</string>
+    <string name="episode_count">Episode count:</string>
+    <string name="episode_length">Episode Length:</string>
+    <string name="categories_title">Categories:</string>
+</resources>

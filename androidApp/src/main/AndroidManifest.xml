@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ru.nikolay.stupnikov.surfkmp.android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name=".AnimeApp"
+        android:allowBackup="false"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AnimeList">
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:exported="true"
+            android:label="@string/anime_list"
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.detail.DetailActivity"
+            android:label="@string/no_name" />
+        <activity
+            android:name=".ui.filter.FilterActivity"
+            android:label="@string/filter"
+            android:windowSoftInputMode="stateHidden" />
+    </application>
+</manifest> 

@@ -1,0 +1,14 @@
+CREATE TABLE CategoryEntity (
+id INTEGER NOT NULL PRIMARY KEY,
+title TEXT,
+slug TEXT
+);
+
+getCount: SELECT COUNT(*) FROM CategoryEntity;
+getAll: SELECT * FROM CategoryEntity;
+
+insertCategory:
+INSERT INTO CategoryEntity(id, title, slug)
+VALUES(?, ?, ?);
+
+selectCategoryById: SELECT * FROM CategoryEntity WHERE id = ?;

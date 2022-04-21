@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="ru.nikolay.stupnikov.surfkmp.android.ui.detail.DetailActivity">
+
+    <data>
+        <import type="android.view.View" />
+        <import type="ru.nikolay.stupnikov.surfkmp.android.R" />
+        <variable
+            name="viewModel"
+            type="ru.nikolay.stupnikov.feature.DetailViewModel" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/colorPrimary"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/margin_medium"
+                    android:visibility="@{viewModel.isLoading.ld ? View.GONE : View.VISIBLE}">
+
+                    <ImageView
+                        android:id="@+id/logo"
+                        android:layout_width="@dimen/logo_big_size"
+                        android:layout_height="@dimen/logo_big_size"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        app:layout_constraintHorizontal_bias="0.498"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:imageUrl="@{viewModel.imageUrl.ld}"
+                        app:size="@{R.dimen.logo_big_size}"/>
+
+                    <TextView
+                        android:id="@+id/description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="Involve hunting down criminals (or other wanted individuals) for money or fame."
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/logo"
+                        android:text="@{viewModel.description.ld}"/>
+
+                    <TextView
+                        android:id="@+id/titleRating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/rating"
+                        style="@style/textTitleDetailsStyle"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/description"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintLeft_toRightOf="@id/titleRating"
+                        app:layout_constraintTop_toBottomOf="@id/description"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        style="@style/textDetailsStyle"
+                        tools:text="98"
+                        android:text="@{viewModel.rating.ld}"/>
+
+                    <TextView
+                        android:id="@+id/titleStartDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/start_date"
+                        style="@style/textTitleDetailsStyle"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/titleRating"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintLeft_toRightOf="@id/titleStartDate"
+                        app:layout_constraintTop_toBottomOf="@id/titleRating"
+                        style="@style/textDetailsStyle"
+                        tools:text="1998-04-03"
+                        android:text="@{viewModel.startDate.ld}"/>
+
+                    <TextView
+                        android:id="@+id/titleEndDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/end_date"
+                        style="@style/textTitleDetailsStyle"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/titleStartDate"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintLeft_toRightOf="@id/titleEndDate"
+                        app:layout_constraintTop_toBottomOf="@id/titleStartDate"
+                        style="@style/textDetailsStyle"
+                        tools:text="1999-04-24"
+                        android:text="@{viewModel.endDate.ld}"/>
+
+                    <TextView
+                        android:id="@+id/titleAgeRating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/age_rating_title"
+                        style="@style/textTitleDetailsStyle"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/titleEndDate"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintLeft_toRightOf="@id/titleAgeRating"
+                        app:layout_constraintTop_toBottomOf="@id/titleEndDate"
+                        style="@style/textDetailsStyle"
+                        tools:text="R18"
+                        android:text="@{viewModel.ageRating.ld}"/>
+
+                    <TextView
+                        android:id="@+id/titleEpisodeCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/episode_count"
+                        style="@style/textTitleDetailsStyle"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/titleAgeRating"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintLeft_toRightOf="@id/titleEpisodeCount"
+                        app:layout_constraintTop_toBottomOf="@id/titleAgeRating"
+                        style="@style/textDetailsStyle"
+                        tools:text="180"
+                        android:text="@{viewModel.episodeCount.ld}"/>
+
+                    <TextView
+                        android:id="@+id/titleEpisodeLength"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/episode_length"
+                        style="@style/textTitleDetailsStyle"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/titleEpisodeCount"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintLeft_toRightOf="@id/titleEpisodeLength"
+                        app:layout_constraintTop_toBottomOf="@id/titleEpisodeCount"
+                        style="@style/textDetailsStyle"
+                        tools:text="25"
+                        android:text="@{viewModel.episodeLength.ld}"/>
+
+                    <TextView
+                        android:id="@+id/titleCategories"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/categories_title"
+                        style="@style/textTitleDetailsStyle"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/titleEpisodeLength"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintWidth_default="spread"
+                        app:layout_constraintLeft_toRightOf="@id/titleCategories"
+                        app:layout_constraintTop_toBottomOf="@id/titleEpisodeLength"
+                        app:layout_constraintRight_toRightOf="parent"
+                        style="@style/textDetailsStyle"
+                        android:text="@{viewModel.categories.ld}"
+                        tools:text="Android"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </ScrollView>
+        </LinearLayout>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="@{viewModel.isLoading.ld ? View.VISIBLE : View.GONE}" />
+
+    </FrameLayout>
+</layout>
