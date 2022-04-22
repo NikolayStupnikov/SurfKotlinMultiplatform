@@ -9,5 +9,5 @@ fun <T> MutableLiveData<MutableList<T>>.addAll(list: List<T>) {
 }
 
 fun <T> MutableLiveData<MutableList<T>>.clear() {
-    this.value.clear()
+    this.value = mutableListOf()
 }

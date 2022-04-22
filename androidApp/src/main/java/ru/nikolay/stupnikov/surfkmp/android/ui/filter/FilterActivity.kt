@@ -1,9 +1,8 @@
 package ru.nikolay.stupnikov.surfkmp.android.ui.filter
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.CheckBox
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import dev.icerock.moko.mvvm.MvvmActivity
 import dev.icerock.moko.mvvm.createViewModelFactory
 import kotlinx.coroutines.FlowPreview
@@ -17,14 +16,10 @@ import ru.nikolay.stupnikov.surfkmp.android.BR
 import ru.nikolay.stupnikov.surfkmp.android.R
 import ru.nikolay.stupnikov.surfkmp.android.databinding.ActivityFilterBinding
 import ru.nikolay.stupnikov.surfkmp.android.ui.filter.category.CategoryListAdapter
+import ru.nikolay.stupnikov.surfkmp.android.ui.filter.category.CategoryRecyclerViewAdapter
 
 @FlowPreview
 class FilterActivity : MvvmActivity<ActivityFilterBinding, FilterViewModel>() {
-
-    companion object {
-        const val FILTER = "filter"
-        const val FILTER_REQUEST_CODE = 1000
-    }
 
     override val layoutId: Int
         get() = R.layout.activity_filter
@@ -36,66 +31,50 @@ class FilterActivity : MvvmActivity<ActivityFilterBinding, FilterViewModel>() {
         get() = BR.viewModel
 
     override fun viewModelFactory(): ViewModelProvider.Factory {
-        return createViewModelFactory { FilterViewModel(intent.getSerializableExtra(FILTER) as? Filter) }
+        return createViewModelFactory { FilterViewModel() }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initSeasons()
-        initAgeRating()
         initSpinner()
+        initAgeRating()
         initToolbar()
 
         binding.btnSubmit.setOnClickListener {
-            val intent = Intent()
             val filter = Filter(
-                viewModel.selectSeasons,
+                (binding.rvSeasons.adapter as CategoryRecyclerViewAdapter).getSelectList(),
                 binding.etYear.text.toString(),
                 if (binding.categorySpinner.selectedItemPosition == 0) null
                 else (binding.categorySpinner.getItemAtPosition(binding.categorySpinner.selectedItemPosition) as CategoryApi).attributes?.slug,
-                viewModel.selectAgeRating
+                (binding.rvAgeRating.adapter as CategoryRecyclerViewAdapter).getSelectList()
             )
-            intent.putExtra(FILTER, filter)
-            setResult(RESULT_OK, intent)
+            viewModel.saveFilter(filter)
             finish()
         }
     }
 
+    override fun onDestroy() {
+        viewModel.saveSeasons((binding.rvSeasons.adapter as CategoryRecyclerViewAdapter).getSelectList())
+        viewModel.saveAgeRating((binding.rvAgeRating.adapter as CategoryRecyclerViewAdapter).getSelectList())
+        super.onDestroy()
+    }
+
     private fun initAgeRating() {
-        for (ageRating in ageRatingList) {
-            val checkBox = CheckBox(this)
-            checkBox.text = ageRating
-            if (viewModel.selectAgeRating.contains(ageRating)) {
-                checkBox.isChecked = true
-            }
-            checkBox.setOnClickListener{
-                if (checkBox.isChecked) {
-                    viewModel.selectAgeRating.add(ageRating)
-                } else {
-                    viewModel.selectAgeRating.remove(ageRating)
-                }
-            }
-            binding.layoutAgeRating.addView(checkBox)
-        }
+        binding.rvAgeRating.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.rvAgeRating.adapter = CategoryRecyclerViewAdapter(
+            ageRatingList
+        )
     }
 
     private fun initSeasons() {
-        for (season in seasons) {
-            val checkBox = CheckBox(this)
-            checkBox.text = season
-            if (viewModel.selectSeasons.contains(season)) {
-                checkBox.isChecked = true
-            }
-            checkBox.setOnClickListener{
-                if (checkBox.isChecked) {
-                    viewModel.selectSeasons.add(season)
-                } else {
-                    viewModel.selectSeasons.remove(season)
-                }
-            }
-            binding.layoutSeasons.addView(checkBox)
-        }
+        binding.rvSeasons.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding.rvSeasons.adapter = CategoryRecyclerViewAdapter(
+            seasons
+        )
     }
 
     private fun initSpinner() {

@@ -15,16 +15,15 @@ import dev.icerock.moko.mvvm.MvvmEventsActivity
 import dev.icerock.moko.mvvm.createViewModelFactory
 import dev.icerock.moko.mvvm.dispatcher.eventsDispatcherOnMain
 import kotlinx.coroutines.FlowPreview
-import ru.nikolay.stupnikov.domain.Filter
+import kotlinx.coroutines.InternalCoroutinesApi
 import ru.nikolay.stupnikov.feature.MainViewModel
 import ru.nikolay.stupnikov.surfkmp.android.R
 import ru.nikolay.stupnikov.surfkmp.android.databinding.ActivityMainBinding
 import ru.nikolay.stupnikov.surfkmp.android.ui.filter.FilterActivity
-import ru.nikolay.stupnikov.surfkmp.android.ui.filter.FilterActivity.Companion.FILTER
-import ru.nikolay.stupnikov.surfkmp.android.ui.filter.FilterActivity.Companion.FILTER_REQUEST_CODE
 import ru.nikolay.stupnikov.surfkmp.android.ui.main.anime.AnimeRecyclerViewAdapter
 
 @FlowPreview
+@InternalCoroutinesApi
 class MainActivity :
     MvvmEventsActivity<ActivityMainBinding, MainViewModel, MainViewModel.EventsListener>(),
     MainViewModel.EventsListener, SwipeRefreshLayout.OnRefreshListener {
@@ -75,26 +74,12 @@ class MainActivity :
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.filter -> {
-                val intent = Intent(this, FilterActivity::class.java)
-                if (viewModel.filter != null) {
-                    intent.putExtra(FILTER, viewModel.filter)
-                }
-                startActivityForResult(intent, FILTER_REQUEST_CODE)
+                startActivity(Intent(this, FilterActivity::class.java))
                 true
             }
             else -> {
                 super.onOptionsItemSelected(item)
             }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == FILTER_REQUEST_CODE && resultCode == RESULT_OK) {
-            if (data != null && data.hasExtra(FILTER)) {
-                viewModel.setFilter(data.getSerializableExtra(FILTER) as Filter)
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
         }
     }
 

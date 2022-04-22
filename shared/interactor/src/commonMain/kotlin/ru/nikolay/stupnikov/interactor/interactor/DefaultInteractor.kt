@@ -17,8 +17,11 @@ class DefaultInteractor(
     private val databaseRepository: DatabaseRepository
 ) {
 
-    suspend fun requestAnimeList(offset: Int, search: String, filter: Filter?): AnimeResponse {
-        return networkRepository.requestAnimeList(offset, search, filter)
+    private val _state = MutableStateFlow<Filter?>(null)
+    val state = _state.asStateFlow()
+
+    suspend fun requestAnimeList(offset: Int, search: String): AnimeResponse {
+        return networkRepository.requestAnimeList(offset, search, state.value)
     }
 
     fun getDetailsAnime(id: Int): Flow<Pair<DetailResponse, CategoryResponse>> {
@@ -86,5 +89,9 @@ class DefaultInteractor(
                 category.attributes?.slug
             )
         }.toList()
+    }
+
+    suspend fun updateFilter(filter: Filter?) {
+        _state.emit(filter)
     }
 }

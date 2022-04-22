@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.filter.FilterActivity">
 
     <data>
+
         <variable
             name="viewModel"
             type="ru.nikolay.stupnikov.feature.FilterViewModel" />
@@ -26,11 +26,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/colorPrimary"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
@@ -41,54 +41,54 @@
                 android:orientation="vertical">
 
                 <TextView
+                    style="@style/titleStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/seasons"
-                    style="@style/titleStyle"/>
+                    android:text="@string/seasons" />
 
-                <LinearLayout
-                    android:id="@+id/layoutSeasons"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvSeasons"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_left_checkbox"
-                    android:orientation="vertical" />
+                    app:adapter="@{viewModel.seasonsLiveData.ld}" />
 
                 <TextView
+                    style="@style/titleStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/year_start_show"
-                    style="@style/titleStyle"/>
+                    android:text="@string/year_start_show" />
 
                 <EditText
                     android:id="@+id/etYear"
+                    style="@style/editTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/editTextStyle"
                     android:hint="@string/enter_the_year"
+                    android:imeOptions="actionDone"
+                    android:importantForAutofill="no"
                     android:inputType="number"
                     android:maxLength="4"
-                    android:text="@={viewModel.year}"
-                    android:imeOptions="actionDone"
-                    android:importantForAutofill="no" />
+                    android:text="@{viewModel.yearLiveData.ld}" />
 
                 <TextView
+                    style="@style/titleStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/age_rating"
-                    style="@style/titleStyle"/>
+                    android:text="@string/age_rating" />
 
-                <LinearLayout
-                    android:id="@+id/layoutAgeRating"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvAgeRating"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_left_checkbox"
-                    android:orientation="vertical" />
+                    app:adapter="@{viewModel.ageRatingLiveData.ld}" />
 
                 <TextView
+                    style="@style/titleStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/categories"
-                    style="@style/titleStyle"/>
+                    android:text="@string/categories" />
 
                 <Spinner
                     android:id="@+id/categorySpinner"
@@ -98,13 +98,13 @@
                     android:layout_marginEnd="@dimen/margin_medium"
                     android:autofillHints="@string/choose_category"
                     android:minHeight="@dimen/height_spinner"
+                    android:overlapAnchor="false"
                     app:categories="@{viewModel.categoryListLiveData.ld}"
-                    app:selectCategory="@{viewModel.selectCategoryLiveData.ld}"
-                    android:overlapAnchor="false" />
+                    app:selectCategory="@{viewModel.selectCategoryLiveData.ld}" />
 
             </LinearLayout>
 
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
         <Button
             android:id="@+id/btnSubmit"
@@ -114,10 +114,10 @@
             android:layout_marginTop="@dimen/margin_small"
             android:layout_marginBottom="@dimen/margin_small"
             android:paddingLeft="@dimen/padding_left_right_button"
-            android:paddingRight="@dimen/padding_left_right_button"
             android:paddingTop="@dimen/padding_top_bottom_button"
+            android:paddingRight="@dimen/padding_left_right_button"
             android:paddingBottom="@dimen/padding_top_bottom_button"
-            android:text="@string/submit"/>
+            android:text="@string/submit" />
 
     </LinearLayout>
 

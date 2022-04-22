@@ -8,10 +8,11 @@ import dev.icerock.moko.mvvm.livedata.map
 import dev.icerock.moko.mvvm.livedata.readOnly
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
-import ru.nikolay.stupnikov.domain.Filter
 import ru.nikolay.stupnikov.interactor.api.response.AnimeApi
 import ru.nikolay.stupnikov.feature.util.addAll
 import ru.nikolay.stupnikov.feature.util.clear
@@ -19,6 +20,7 @@ import ru.nikolay.stupnikov.interactor.interactor.DefaultInteractor
 import org.koin.core.component.inject
 import ru.nikolay.stupnikov.interactor.Setting.PAGE_LIMIT
 
+@InternalCoroutinesApi
 class MainViewModel(
     override val eventsDispatcher: EventsDispatcher<EventsListener>
 ): ViewModel(), KoinComponent, EventsDispatcherOwner<MainViewModel.EventsListener> {
@@ -36,11 +38,17 @@ class MainViewModel(
     private var offset = 0
     private var maxCount = 0
     private var search: String = ""
-    var filter: Filter? = null
-        private set
 
     init {
-        getAnimeList()
+        observeFilter()
+    }
+
+    private fun observeFilter() {
+        viewModelScope.launch {
+            interactor.state.collectLatest {
+                restart()
+            }
+        }
     }
 
     private fun getAnimeList() {
@@ -50,7 +58,7 @@ class MainViewModel(
         job = viewModelScope.launch {
             _isLoading.value = true
             kotlin.runCatching {
-                interactor.requestAnimeList(offset, search, filter)
+                interactor.requestAnimeList(offset, search)
             }.onSuccess {
                 if (!it.result.isNullOrEmpty()) {
                     _animeListLiveData.addAll(it.result!!)
@@ -76,11 +84,6 @@ class MainViewModel(
 
     fun search(search: String) {
         this.search = search
-        restart()
-    }
-
-    fun setFilter(filter: Filter) {
-        this.filter = filter
         restart()
     }
 

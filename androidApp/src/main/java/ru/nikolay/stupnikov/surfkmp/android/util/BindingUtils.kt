@@ -12,6 +12,7 @@ import ru.nikolay.stupnikov.interactor.api.response.CategoryAttribute
 import ru.nikolay.stupnikov.interactor.api.response.Titles
 import ru.nikolay.stupnikov.surfkmp.android.R
 import ru.nikolay.stupnikov.surfkmp.android.ui.filter.category.CategoryListAdapter
+import ru.nikolay.stupnikov.surfkmp.android.ui.filter.category.CategoryRecyclerViewAdapter
 import ru.nikolay.stupnikov.surfkmp.android.ui.main.anime.AnimeRecyclerViewAdapter
 
 object BindingUtils {
@@ -84,5 +85,11 @@ object BindingUtils {
                 }
             }
         }
+    }
+
+    @JvmStatic
+    @BindingAdapter("adapter")
+    fun addCategoryItems(recyclerView: RecyclerView, list: List<String>) {
+        (recyclerView.adapter as? CategoryRecyclerViewAdapter)?.addItems(list)
     }
 }
